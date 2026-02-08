@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Student Results Portal</title>
+  <title>KAFM Student Results</title>
   
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -27,7 +27,6 @@
       justify-content: center;
       color: #333;
       margin: 0;
-      /* Background Image */
       background-image: url('background.jpg'); 
       background-size: cover;
       background-position: center;
@@ -100,7 +99,7 @@
     .result-label { color: #64748b; font-weight: 500; }
     .result-value { font-weight: 700; color: #1e293b; }
 
-    /* Grade Circle */
+    /* Grade Badge */
     .grade-badge-container { text-align: center; margin-bottom: 15px; }
     .grade-circle {
       width: 100px; height: 100px; border-radius: 50%; display: inline-flex;
@@ -153,6 +152,7 @@
       </div>
 
       <div id="resultArea" class="result-container">
+        
         <div class="grade-badge-container">
           <div id="gradeCircle" class="grade-circle bg-Default">-</div>
           <div class="eval-text" id="resEval">-</div>
@@ -179,13 +179,13 @@
     </div>
   </div>
 
-  <div style="margin-top:20px; color:white; font-size:0.8rem;">&copy; 2026 OAFM Results Portal</div>
+  <div style="margin-top:20px; color:white; font-size:0.8rem;">&copy; Made By Omar Aboolo, Class of 2030</div>
 
   <script>
     // ============================================
     // ⚠️ PASTE YOUR GOOGLE DEPLOYMENT URL HERE ⚠️
     // ============================================
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbydAUM1mn7OKrydMQK8c95mbSSt_IgKVKZeeI79dgkdGmLLbTraZ5gA2F-WwXaoXJSZ/exec"; 
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw4ZiW0qu1QaOaRTzLFpHb6W5rCZPCYGbCWExxgT8SVvnZL4e_CWTR5XrVu_sD-FpQS/exec"; 
 
     function searchResult() {
       const seatRaw = document.getElementById('seatInput').value;
@@ -221,7 +221,7 @@
             document.getElementById('resPercent').innerText = data.percent;
             document.getElementById('resEval').innerText = data.evaluation;
 
-            // Visual Logic
+            // Visual Logic for Arabic Evaluation Terms
             const evalText = data.evaluation || "";
             let gradeClass = 'bg-Default';
             let circleText = evalText.charAt(0);
@@ -232,7 +232,7 @@
                 gradeClass = "bg-Very"; circleText = "Vg";
             } else if (evalText.includes("Good") || evalText.includes("جيد")) {
                 gradeClass = "bg-Good"; circleText = "Gd";
-            } else if (evalText.includes("F") || evalText.includes("Fail")) {
+            } else if (evalText.includes("F") || evalText.includes("Fail") || evalText.includes("راسب")) {
                 gradeClass = "bg-F"; circleText = "F";
             }
 
@@ -263,4 +263,3 @@
 
 </body>
 </html>
-
