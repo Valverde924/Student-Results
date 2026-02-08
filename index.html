@@ -108,11 +108,16 @@
     }
     .eval-text { margin-top: 10px; font-weight: 700; font-size: 1.2rem; }
 
-    /* Colors */
-    .bg-Excellent { background: linear-gradient(135deg, #10b981, #059669); }
-    .bg-Very { background: linear-gradient(135deg, #3b82f6, #2563eb); }
-    .bg-Good { background: linear-gradient(135deg, #f59e0b, #d97706); }
-    .bg-F { background: linear-gradient(135deg, #ef4444, #dc2626); }
+    /* COLORS DEFINITION */
+    /* Highest Rank (Green) */
+    .bg-Excellent { background: linear-gradient(135deg, #10b981, #059669); } 
+    /* Second Rank (Blue) */
+    .bg-Very { background: linear-gradient(135deg, #3b82f6, #2563eb); } 
+    /* Third Rank (Orange) */
+    .bg-Good { background: linear-gradient(135deg, #f59e0b, #d97706); } 
+    /* Fail (Red) */
+    .bg-F { background: linear-gradient(135deg, #ef4444, #dc2626); } 
+    /* Default (Grey) */
     .bg-Default { background: linear-gradient(135deg, #6c757d, #495057); }
 
     .loader {
@@ -213,7 +218,7 @@
           document.getElementById('loader').style.display = 'none';
 
           if (data.found) {
-            // Update Text
+            // Update Text Data
             document.getElementById('resName').innerText = data.name;
             document.getElementById('resSeat').innerText = "Seat: " + data.seat;
             document.getElementById('resRank').innerText = "#" + data.rank;
@@ -221,21 +226,37 @@
             document.getElementById('resPercent').innerText = data.percent;
             document.getElementById('resEval').innerText = data.evaluation;
 
-            // Visual Logic for Arabic Evaluation Terms
-            const evalText = data.evaluation || "";
+            // ====================================================
+            // COLOR LOGIC (Arabic & English Support)
+            // ====================================================
+            const evalText = data.evaluation ? data.evaluation.trim() : "";
+            
             let gradeClass = 'bg-Default';
-            let circleText = evalText.charAt(0);
+            let circleText = "-";
 
-            if (evalText.includes("Excellent") || evalText.includes("امتياز")) {
-                gradeClass = "bg-Excellent"; circleText = "Ex";
-            } else if (evalText.includes("Very Good") || evalText.includes("جيد جدا")) {
-                gradeClass = "bg-Very"; circleText = "Vg";
-            } else if (evalText.includes("Good") || evalText.includes("جيد")) {
-                gradeClass = "bg-Good"; circleText = "Gd";
-            } else if (evalText.includes("F") || evalText.includes("Fail") || evalText.includes("راسب")) {
-                gradeClass = "bg-F"; circleText = "F";
+            // 1. Excellent / امتياز / ممتاز (HIGHEST RANK - GREEN)
+            if (evalText.includes("Excellent") || evalText.includes("امتياز") || evalText.includes("ممتاز")) {
+                gradeClass = "bg-Excellent"; 
+                circleText = "A";
+            } 
+            // 2. Very Good / جيد جدا (SECOND RANK - BLUE)
+            // Note: We check this BEFORE "Good" to ensure accuracy
+            else if (evalText.includes("Very Good") || evalText.includes("جيد جدا")) {
+                gradeClass = "bg-Very"; 
+                circleText = "B";
+            } 
+            // 3. Good / جيد (THIRD RANK - ORANGE)
+            else if (evalText.includes("Good") || evalText.includes("جيد")) {
+                gradeClass = "bg-Good"; 
+                circleText = "C";
+            } 
+            // 4. Fail / راسب / F (FAIL - RED)
+            else if (evalText.includes("F") || evalText.includes("Fail") || evalText.includes("راسب")) {
+                gradeClass = "bg-F"; 
+                circleText = "F";
             }
 
+            // Apply Class to Circle
             const circle = document.getElementById('gradeCircle');
             circle.innerText = circleText;
             circle.className = 'grade-circle ' + gradeClass;
